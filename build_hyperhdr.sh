@@ -2,7 +2,7 @@
 # Usage:
 # TOOLCHAIN_DIR=<path_to_webos_buildroot_toolchain> ./build_hyperhdr.sh
 
-HYPERHDR_REPO="${HYPERHDR_REPO:-https://github.com/awawa-dev/HyperHDR}"
+HYPERHDR_REPO="${HYPERHDR_REPO:-https://github.com/satgit62/HyperHDR}"
 HYPERHDR_BRANCH="${HYPERHDR_BRANCH:-master}"
 
 # Toolchain params - No changes needed below this line
