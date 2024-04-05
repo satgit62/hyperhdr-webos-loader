@@ -18,7 +18,7 @@ TARGET_DIR="${EXEC_DIR}/hyperhdr"
 HYPERHDR_REPO_DIR="${EXEC_DIR}/hyperhdr-repo"
 BUILD_DIR="${HYPERHDR_REPO_DIR}/build"
 
-DEPENDENCIES="libpng16.so.16 libjpeg.so.8 libcrypto.so.1.1 libz.so.1 libssl.so.1.1 libQt5Sql.so.5.15.2 libpcre2-16.so.0 libQt5Gui.so.5 libQt5Network.so.5 libQt5Widgets.so.5 libk5crypto.so.3 libatomic.so.1 libQt5Core.so.5 libkrb5support.so.0 libcom_err.so.3 libstdc++.so.6 libkrb5.so.3 libQt5Sql.so.5 libgssapi_krb5.so.2 libQt5SerialPort.so.5 libQt5Sql.so.5.15 libusb-1.0.so.0"
+dependency_libs: libpng16.so.16 libjpeg.so.8 libcrypto.so.1.1 libz.so.1 libssl.so.1.1 libQt5Sql.so.5.15.2 libpcre2-16.so.0 libQt5Gui.so.5 libQt5Network.so.5 libQt5Widgets.so.5 libk5crypto.so.3 libatomic.so.1 libQt5Core.so.5 libkrb5support.so.0 libcom_err.so.3 libstdc++.so.6 libkrb5.so.3 libQt5Sql.so.5 libgssapi_krb5.so.2 libQt5SerialPort.so.5 libQt5Sql.so.5.15 libusb-1.0.so.0 libftdi1.so.2
 
 if ! command -v flatc &> /dev/null
 then
@@ -42,6 +42,7 @@ cmake .. \
   -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_CMAKE_FILE} \
   -DCMAKE_BUILD_TYPE=Release \
   -DPLATFORM=linux \
+  -DENABLE_FTDIDEV=OFF \
   -DENABLE_BOBLIGHT=OFF \
   -DENABLE_SPIDEV=OFF \
   -DENABLE_V4L2=OFF \
