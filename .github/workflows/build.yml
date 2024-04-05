@@ -24,7 +24,7 @@ jobs:
         working-directory: ./hyperhdr-repo
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: satgit62/HyperHDR
           ref: master
