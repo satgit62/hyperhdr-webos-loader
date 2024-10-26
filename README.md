@@ -6,6 +6,8 @@ The HyperHDR daemon is no longer stopped when the internal screensaver or the cu
 
 # ai_calibration
 
+#Fix HyperHDR daemon when starting calibration process
+
 #Add quarter of frame mode for flatbuffers
 
 #Grabber benchmark support for flatbuffers
