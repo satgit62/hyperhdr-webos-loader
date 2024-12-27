@@ -4,6 +4,8 @@ Added option to deactivate lamps in the HA wizard
 
 Added Zigbee2mqtt protocol
 
+https://github.com/awawa-dev/HyperHDR/commits/zigbee2mqtt/
+
 Added support for Home Assistant lights von @awawa-dev
 
 
