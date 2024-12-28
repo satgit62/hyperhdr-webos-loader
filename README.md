@@ -1,12 +1,12 @@
 # HyperHDR for WebOS
 
-Added option to deactivate lamps in the HA wizard
+Added Zigbee2mqtt protocol, Zigbee2mqtt: improved synchronization by @awawa-dev
 
-Added Zigbee2mqtt protocol
+Added option to deactivate lamps in the HA wizard
 
 https://github.com/awawa-dev/HyperHDR/commits/zigbee2mqtt/
 
-Added support for Home Assistant lights von @awawa-dev
+Added support for Home Assistant lights by @awawa-dev
 
 
 https://github.com/awawa-dev/HyperHDR/issues/918
