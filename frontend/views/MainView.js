@@ -3,7 +3,7 @@ var
   Panels = require('moonstone/Panels'),
   IconButton = require('moonstone/IconButton'),
   MainPanel = require('./MainPanel.js');
-
+  SettingsPanel = require('./SettingsPanel.js');
 module.exports = kind({
   name: 'myapp.MainView',
   classes: 'moon enyo-fit main-view',

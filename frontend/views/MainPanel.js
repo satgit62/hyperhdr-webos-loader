@@ -4,12 +4,13 @@ var
   FittableColumns = require('layout/FittableColumns'),
   BodyText = require('moonstone/BodyText'),
   LunaService = require('enyo-webos/LunaService'),
-	Divider = require('moonstone/Divider'),
-	Scroller = require('moonstone/Scroller'),
+  Divider = require('moonstone/Divider'),
+  Scroller = require('moonstone/Scroller'),
   Item = require('moonstone/Item'),
-	ToggleItem = require('moonstone/ToggleItem'),
+  ToggleItem = require('moonstone/ToggleItem'),
   LabeledTextItem = require('moonstone/LabeledTextItem');
-
+  IconButton = require('moonstone/IconButton');
+  SettingsPanel = require('./SettingsPanel.js');
 var daemonName = "HyperHDR";
 var serviceName = "org.webosbrew.hyperhdr.loader.service";
 var lunaServiceUri = "luna://" + serviceName;
@@ -32,6 +33,9 @@ module.exports = kind({
   title: daemonName,
   titleBelow: "Loader",
   headerType: 'medium',
+ headerComponents: [
+    {kind: IconButton, icon: 'gear', ontap: 'openSettings'},
+  ],
   components: [
     {kind: FittableColumns, classes: 'enyo-center', fit: true, components: [
       {kind: Scroller, fit: true, components: [
@@ -236,4 +240,21 @@ module.exports = kind({
       this.exec('rm -rf ' + linkPath);
     }
   },
+
+
+events: {
+    onRequestPushPanel: ''
+  },
+  itemSelected: function (sender, ev) {
+    if (ev.model) {
+      this.doRequestPushPanel({panel: {kind: MainPanel, model: ev.model, repositoryURL: ev.model.get('repository')}});
+    }
+  },
+openSettings: function (sender, ev) {
+    this.doRequestPushPanel({
+      panel: {
+        kind: SettingsPanel,
+      }
+    });
+},
 });
