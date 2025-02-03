@@ -189,10 +189,6 @@ jobs:
 
           chmod +x ./dist/service/hyperhdr/hyperhdr
 
-          chmod +x ./dist/service/lut_compressed.sh
-          chmod +x ./dist/service/lut_uncompressed.sh
-          chmod +x ./dist/service/lut_default.sh
-
       - name: Copy HDR LUT
         run: unxz -dc ./resources/flat_lut_lin_tables.3d.xz > ./dist/service/hyperhdr/flat_lut_lin_tables.3d
 
