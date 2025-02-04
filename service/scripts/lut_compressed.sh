@@ -27,6 +27,7 @@ download_and_decompress() {
     }
     
     tar xvzf "$lut_file" -C "$ROOT_HYPERHDR_PATH" || {
+        rm -f "$lut_file"
         exit 1
     }
 
