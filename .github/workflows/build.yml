@@ -5,13 +5,13 @@ on:
   workflow_dispatch:
 
 env:
-  TOOLCHAIN_URL: https://github.com/satgit62/buildroot-nc4/releases/download/webOS.0.3/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
+  TOOLCHAIN_URL: https://github.com/satgit62/buildroot-nc4/releases/download/webOS.0.1/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
   TOOLCHAIN_DIR: /opt/arm-webos-linux-gnueabi_sdk-buildroot
   TOOLCHAIN_ENV_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
   TOOLCHAIN_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake
   BUILD_DIR: build
 
-  CCACHE_DIR: .ccache-build
+  CCACHE_CACHE_DIR: .ccache-build
   CCACHE_COMPRESS: true
   CCACHE_COMPRESSLEVEL: 6
   CCACHE_MAXSIZE: 600M
@@ -81,8 +81,8 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
             -DCMAKE_BUILD_TYPE=Release \
             -DPLATFORM=linux \
-            -DENABLE_SPIDEV=OFF \
             -DENABLE_SPI_FTDI=ON \
+            -DENABLE_SPIDEV=OFF \
             -DENABLE_V4L2=OFF \
             -DENABLE_X11=OFF \
             -DENABLE_PIPEWIRE=OFF \
@@ -90,13 +90,13 @@ jobs:
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
             -DENABLE_FRAMEBUFFER=OFF \
-          make 
+          make
           popd
 
       - name: Copy built binaries to release/
         run: |
-          rm -rf ./release
-          cp -r -T -- "./${{ env.BUILD_DIR }}/bin" ./release
+          mkdir ./release
+          cp -r ./${{ env.BUILD_DIR }}/bin/* ./release/
           find ./release
 
       - name: Copy dependencies to release/
