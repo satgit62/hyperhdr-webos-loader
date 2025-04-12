@@ -79,12 +79,11 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
+            -DPython3_EXECUTABLE="${TOOLCHAIN_DIR}/bin/python3" \
             -DCMAKE_BUILD_TYPE=Release \
             -DPLATFORM=rpi \
             -DENABLE_SPIDEV=OFF \
             -DENABLE_SPI_FTDI=ON \
-            -DENABLE_DEV_SERIAL=ON \
-            -DENABLE_DEV_USB_HID=ON \
             -DENABLE_V4L2=OFF \
             -DENABLE_X11=OFF \
             -DENABLE_PIPEWIRE=OFF \
