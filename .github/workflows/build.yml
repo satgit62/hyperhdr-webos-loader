@@ -89,7 +89,7 @@ jobs:
             -DENABLE_SOUNDCAPLINUX=ON \
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
-            -DENABLE_FRAMEBUFFER=OFF \
+            -DENABLE_FRAMEBUFFER=OFF 
           make
           popd
 
