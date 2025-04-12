@@ -81,7 +81,6 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
             -DPython3_EXECUTABLE="${TOOLCHAIN_DIR}/bin/python3" \
             -DPLATFORM=linux \
-            -DENABLE_SPI_FTDI=ON \
             -DENABLE_SPIDEV=OFF \
             -DENABLE_V4L2=OFF \
             -DENABLE_X11=OFF \
