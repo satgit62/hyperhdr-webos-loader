@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: Restore/Cache build directories
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ github.workspace }}/${{ env.CCACHE_CACHE_DIR }}
@@ -47,7 +47,7 @@ jobs:
           mkdir -p ./${{ env.BUILD_DIR }}
       - name: Cache toolchain dir
         id: cache-toolchain
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.TOOLCHAIN_DIR }}
           key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}      
