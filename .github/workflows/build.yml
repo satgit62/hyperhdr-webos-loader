@@ -33,42 +33,48 @@ jobs:
           fetch-depth: 0
 
       - name: Restore/Cache build directories
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
-          path: ${{ github.workspace }}/${{ env.CCACHE_DIR }}
+          path: |
+            ${{ github.workspace }}/${{ env.CCACHE_CACHE_DIR }}
+
           key: ccache-${{ runner.os }}-${{github.run_id}}
-          restore-keys: ccache-${{ runner.os }}
+          restore-keys: |
+            ccache-${{ runner.os }}
 
-
+      - name: Create build directories
+        run: |
+          mkdir -p ./${{ env.BUILD_DIR }}
       - name: Cache toolchain dir
         id: cache-toolchain
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: ${{ env.TOOLCHAIN_DIR }}
-          key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}
-
-      - name: Download and unpack toolchain
+          key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}      
+      
+      - name: Download and unpack toolchain      
         if: steps.cache-toolchain.outputs.cache-hit != 'true'
         working-directory: /opt
         run: |
-          wget -q -O toolchain.tar.gz -- "${TOOLCHAIN_URL}"
+          wget -q -O toolchain.tar.gz ${TOOLCHAIN_URL}
           tar xf toolchain.tar.gz
-          pushd -- "${TOOLCHAIN_DIR}"
+          pushd ${TOOLCHAIN_DIR}
           ./relocate-sdk.sh
           popd
-          find -- "${TOOLCHAIN_DIR}/bin" -type f -iname 'perl*' -delete
+          find ${TOOLCHAIN_DIR}/bin -type f -iname "perl*" -delete
 
-      - name: Install ccache
+      - name: Install native dependencies
+        env:
+          apt_deps: ccache git cmake build-essential flatbuffers-compiler
         run: |
           sudo apt update
-          sudo apt install -y ccache
+          sudo apt install -y ${{ env.apt_deps }}
 
-      - name: Build
+      - name: Build (webos arm)
         env:
-          CCACHE_DIR: ${{ github.workspace }}/${{ env.CCACHE_DIR }}
+          CCACHE_DIR: ${{ github.workspace }}/${{ env.CCACHE_CACHE_DIR }}
         run: |
-          mkdir -p -- "./${{ env.BUILD_DIR }}"
-          pushd -- "./${{ env.BUILD_DIR }}"
+          pushd ./${{ env.BUILD_DIR }}
           cmake .. \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
