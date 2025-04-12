@@ -85,8 +85,7 @@ jobs:
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
             -DENABLE_FRAMEBUFFER=OFF
-            -G Ninja
-          cmake --build .
+          make 
           popd
 
       - name: Copy built binaries to release/
