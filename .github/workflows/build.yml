@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: awawa-dev/HyperHDR
-          ref: v21.0.0.0
+          ref: full_ftdi_and_libftdi_dynamic_support
           path: hyperhdr-repo
           submodules: recursive
           fetch-depth: 0
