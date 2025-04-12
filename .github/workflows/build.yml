@@ -79,7 +79,6 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
-            -DPython3_EXECUTABLE="${TOOLCHAIN_DIR}/bin/python3" \
             -DCMAKE_BUILD_TYPE=Release \
             -DPLATFORM=linux \
             -DENABLE_SPIDEV=OFF \
