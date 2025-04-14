@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  TOOLCHAIN_URL: https://github.com/satgit62/buildroot-nc4/releases/download/webOS.0.3/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
+  TOOLCHAIN_URL: https://github.com/satgit62/buildroot-nc4/releases/download/webOS.0.1/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
   TOOLCHAIN_DIR: /opt/arm-webos-linux-gnueabi_sdk-buildroot
   TOOLCHAIN_ENV_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
   TOOLCHAIN_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake
@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: Restore/Cache build directories
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: |
             ${{ github.workspace }}/${{ env.CCACHE_CACHE_DIR }}
@@ -47,7 +47,7 @@ jobs:
           mkdir -p ./${{ env.BUILD_DIR }}
       - name: Cache toolchain dir
         id: cache-toolchain
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: ${{ env.TOOLCHAIN_DIR }}
           key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}      
@@ -79,6 +79,7 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
+            -DCMAKE_BUILD_TYPE=Release \
             -DPLATFORM=linux \
             -DENABLE_SPI_FTDI=ON \
             -DENABLE_SPIDEV=ON \
@@ -88,15 +89,14 @@ jobs:
             -DENABLE_SOUNDCAPLINUX=ON \
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
-            -DENABLE_FRAMEBUFFER=OFF \
-            -G Ninja
-          cmake --build .
+            -DENABLE_FRAMEBUFFER=OFF 
+          make
           popd
 
       - name: Copy built binaries to release/
         run: |
-          rm -rf ./release
-          cp -r -T -- "./${{ env.BUILD_DIR }}/bin" ./release
+          mkdir ./release
+          cp -r ./${{ env.BUILD_DIR }}/bin/* ./release/
           find ./release
 
       - name: Copy dependencies to release/
