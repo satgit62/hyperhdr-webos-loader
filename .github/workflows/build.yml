@@ -88,14 +88,15 @@ jobs:
             -DENABLE_SOUNDCAPLINUX=ON \
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
-            -DENABLE_FRAMEBUFFER=OFF 
-          make
+            -DENABLE_FRAMEBUFFER=OFF \
+            -G Ninja
+          cmake --build .
           popd
 
       - name: Copy built binaries to release/
         run: |
-          mkdir ./release
-          cp -r ./${{ env.BUILD_DIR }}/bin/* ./release/
+          rm -rf ./release
+          cp -r -T -- "./${{ env.BUILD_DIR }}/bin" ./release
           find ./release
 
       - name: Copy dependencies to release/
