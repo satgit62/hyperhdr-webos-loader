@@ -26,8 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: satgit62/HyperHDR
-          ref: master
+          repository: awawa-dev/HyperHDR
+          ref: 
+          
           path: hyperhdr-repo
           submodules: recursive
           fetch-depth: 0
