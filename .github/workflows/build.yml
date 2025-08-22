@@ -81,14 +81,15 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
             -DCMAKE_BUILD_TYPE=Release \
             -DPLATFORM=linux \
-            -DENABLE_SPIDEV=OFF \
+            -DENABLE_SPI_FTDI=ON \
+            -DENABLE_SPIDEV=ON \
             -DENABLE_V4L2=OFF \
             -DENABLE_X11=OFF \
             -DENABLE_PIPEWIRE=OFF \
             -DENABLE_SOUNDCAPLINUX=ON \
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
-            -DENABLE_FRAMEBUFFER=OFF
+            -DENABLE_FRAMEBUFFER=OFF 
           make
           popd
 
