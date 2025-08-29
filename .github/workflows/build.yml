@@ -26,8 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: awawa-dev/HyperHDR
-          ref: infinite_color_engine
+          repository: satgit62/HyperHDR
+          ref: master
           
           path: hyperhdr-repo
           submodules: recursive
