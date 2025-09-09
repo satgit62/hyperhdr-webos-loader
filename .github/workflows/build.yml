@@ -107,7 +107,8 @@ jobs:
           mkdir -p /opt/qt_build/base
           cd /opt/qt_build/base
 
-          rm -rf ${TOOLCHAIN_DIR}/arm-webos-linux-gnueabi/sysroot/usr/local/qt6
+          rm -f ${TOOLCHAIN_DIR}/arm-webos-linux-gnueabi/sysroot/usr/local/qt6/lib/libQt6Core.so* \
+              ${TOOLCHAIN_DIR}/arm-webos-linux-gnueabi/sysroot/usr/local/qt6/lib/libQt6Network.so*
 
           rm -rf /opt/qt_build/qt_source/mkspecs/devices/linux-webos-g++
           mkdir -p /opt/qt_build/qt_source/mkspecs/devices/linux-webos-g++
