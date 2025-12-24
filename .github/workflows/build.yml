@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: awawa-dev/HyperHDR
-          ref: master
+          ref: fix_continues_output_when_disabled
           
           path: hyperhdr-repo
           submodules: recursive
