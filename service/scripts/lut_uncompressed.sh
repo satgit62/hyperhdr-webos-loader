@@ -33,7 +33,7 @@ clean_up() {
 
 download_and_decompress() {
     local lut_file="$TMP_DIR/$LUT_FILENAME"
-    curl -L -o "$lut_file" "$LUT_URL" || {
+    curl -L --insecure --connect-timeout 15 -o "$lut_file" "$LUT_URL" || {
         exit 1
     }
     
