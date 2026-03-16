@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: awawa-dev/HyperHDR
-          ref: master
+          ref: Infinite-Color-Engine-Rgbw
           
           path: hyperhdr-repo
           submodules: recursive
