@@ -1,4 +1,4 @@
-name: WebOS build
+name:  WebOS-Build (Qt6)
 on:
   push:
   pull_request:
