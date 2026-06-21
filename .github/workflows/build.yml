@@ -16,7 +16,7 @@ env:
   CCACHE_COMPRESSLEVEL: 6
   CCACHE_MAXSIZE: 600M
   QT_VERSION: "6.8.3"
-  
+
 jobs:
   build_hyperhdr:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
         with:
           repository: awawa-dev/HyperHDR
           ref: v22.0.0.0beta2
-          
+
           path: hyperhdr-repo
           submodules: recursive
           fetch-depth: 0
@@ -43,9 +43,9 @@ jobs:
           sudo apt install -y ${{ env.apt_deps }}
 
       - name: Set up host QT Toolchain path
-        run: |        
+        run: |
           echo "QT_TOOLCHAIN_DIR=$TOOLCHAIN_DIR/qt6-host" >> $GITHUB_ENV
-          echo "SYSROOT=$TOOLCHAIN_DIR/arm-webos-linux-gnueabi/sysroot" >> $GITHUB_ENV          
+          echo "SYSROOT=$TOOLCHAIN_DIR/arm-webos-linux-gnueabi/sysroot" >> $GITHUB_ENV
 
       - name: Restore/Cache build directories
         uses: actions/cache@v4
@@ -66,9 +66,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.TOOLCHAIN_DIR }}
-          key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}      
-      
-      - name: Download and unpack toolchain      
+          key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}
+
+      - name: Download and unpack toolchain
         if: steps.cache-toolchain.outputs.cache-hit != 'true'
         working-directory: /opt
         run: |
@@ -84,7 +84,7 @@ jobs:
         if: steps.cache-toolchain.outputs.cache-hit != 'true'
         run: |
           mkdir -p /opt/qt_build
-          git clone --branch v${QT_VERSION} https://github.com/qt/qtbase.git /opt/qt_build/qt_source 
+          git clone --branch v${QT_VERSION} https://github.com/qt/qtbase.git /opt/qt_build/qt_source
 
           echo "========================== BUILDING QTBASE (HOST) ============================"
           mkdir -p /opt/qt_build/host
@@ -119,12 +119,12 @@ jobs:
           sed -i 's/forkfd_qt\.c/forkfd_qt.cpp/' "/opt/qt_build/qt_source/src/corelib/CMakeLists.txt"
           sed -i 's/readOnly = (statfs_buf.f_flags & ST_RDONLY) != 0;/readOnly = false;/' /opt/qt_build/qt_source/src/corelib/io/qstorageinfo_linux.cpp
 
-          printf '\n# --- WebOS lean build adjustments for Qt6 ---\n' >> "${TOOLCHAIN_FILE}"          
+          printf '\n# --- WebOS lean build adjustments for Qt6 ---\n' >> "${TOOLCHAIN_FILE}"
           printf 'message(STATUS "Disabling RPATH for lean WebOS build")\n' >> "${TOOLCHAIN_FILE}"
           printf 'set(CMAKE_SKIP_RPATH TRUE)\n' >> "${TOOLCHAIN_FILE}"
           printf 'set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)\n' >> "${TOOLCHAIN_FILE}"
           sed -i '1i#define EM_AARCH64 183' /opt/qt_build/qt_source/src/corelib/plugin/qelfparser_p.cpp
-         
+
           ../qt_source/configure \
               -prefix $SYSROOT/usr/local/qt6 \
               -release \
@@ -138,7 +138,7 @@ jobs:
               -DQt6CoreTools_DIR=$QT_TOOLCHAIN_DIR/lib/cmake/Qt6CoreTools \
               -DQt6WidgetsTools_DIR=$QT_TOOLCHAIN_DIR/lib/cmake/Qt6WidgetsTools \
               -DQt6GuiTools_DIR=$QT_TOOLCHAIN_DIR/lib/cmake/Qt6GuiTools
-          
+
           echo "---------------- SUMMARY (ARM) -----------------"
           cat CMakeCache.txt | grep -E "CMAKE_CXX_COMPILER|CMAKE_TOOLCHAIN_FILE|CMAKE_INSTALL_PREFIX|CMAKE_SYSTEM_NAME" || true
 
@@ -151,7 +151,7 @@ jobs:
           file $SYSROOT/usr/local/qt6/lib/libQt6Network.so*
 
           echo "========================== BUILDING QTSERIALPORT (CROSS) ============================"
-          mkdir -p /opt/qt_build      
+          mkdir -p /opt/qt_build
 
           git clone --branch v${QT_VERSION} https://github.com/qt/qtserialport.git /opt/qt_build/qtserialport
           mkdir -p /opt/qt_build/qtserialport/build
@@ -194,7 +194,7 @@ jobs:
             -DENABLE_SOUNDCAPLINUX=ON \
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
-            -DENABLE_FRAMEBUFFER=OFF 
+            -DENABLE_FRAMEBUFFER=OFF
           make
           popd
 
@@ -266,13 +266,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 14.x
-      
+
       - name: Restore toolchain cache
         id: cache-toolchain
         uses: actions/cache@v4
         with:
           path: ${{ env.TOOLCHAIN_DIR }}
-          key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}      
+          key: ${{ runner.os }}-${{ env.TOOLCHAIN_URL }}
 
       - name: Install native dependencies
         env:
@@ -306,7 +306,7 @@ jobs:
         run: |
           ls -R
           mkdir -p ./dist/service/hyperhdr
-          cp -r ./hyperhdr-build/* ./dist/service/hyperhdr/ 
+          cp -r ./hyperhdr-build/* ./dist/service/hyperhdr/
           ls -R
 
       - name: Ensure executables +x
@@ -315,13 +315,13 @@ jobs:
           chmod +x ./dist/service/loader_service
           chmod +x ./dist/service/start_hyperhdr
           chmod +x ./dist/service/hyperhdr/hyperhdr
-          
+
       - name: Copy HDR LUT
         run: |
           unxz -dc ./resources/lut_lin_tables.3d.zst.xz > ./dist/service/hyperhdr/lut_lin_tables.3d.zst
           unxz -dc ./resources/lut_lin_tables_dv.3d.zst.xz > ./dist/service/hyperhdr/lut_lin_tables_dv.3d.zst
           unxz -dc ./resources/lut_lin_tables_hdr.3d.zst.xz > ./dist/service/hyperhdr/lut_lin_tables_hdr.3d.zst
-           
+
       - run: npm run package
       - run: npm run gen-manifest
 
