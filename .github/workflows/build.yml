@@ -297,7 +297,8 @@ jobs:
           pushd service/build
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}
+            -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
           make
           popd
           cp -r ./service/build/dist/* ./dist/service/
